@@ -1,0 +1,19 @@
+{
+  "name": "filmservice",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realweildie/filmservice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/realweildie/filmservice/issues"
+  },
+  "homepage": "https://github.com/realweildie/filmservice#readme",
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ]
+}
