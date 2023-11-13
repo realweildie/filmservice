@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import { Button } from "@packages/ui";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <div>Hello!</div>
+    <Button>Hello!</Button>
   </React.StrictMode>
 );
