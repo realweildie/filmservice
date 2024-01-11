@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import playerService from "./services/PlayerService";
 
 export interface PlayerProps {
@@ -22,9 +22,16 @@ export const Player: FC<PlayerProps> = ({ children }) => {
     })();
   }, []);
 
+  const play = async () => await playerService.play();
+
   return (
-    <div data-vjs-player>
+    <div className="player" data-vjs-player>
       <video id={DEFAULT_PLAYER_ID} preload="metadata" muted playsInline />
+
+      {/* button should be in manager, effect should be in effect */}
+      <button className="playButton" onClick={play}>
+        play
+      </button>
 
       {children}
     </div>

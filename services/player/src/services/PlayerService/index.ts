@@ -134,9 +134,34 @@ const PlayerService = () => {
       isSetupSource = false;
     });
 
+  const playVideo = async () => {
+    const promise = player.play();
+
+    if (promise !== undefined) {
+      try {
+        await promise;
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+  };
+
+  const play = async () => {
+    try {
+      await playVideo();
+    } catch (e) {}
+  };
+
+  const pause = () => {
+    if (player && !player.paused()) player.pause();
+  };
+
   return {
     init,
     setSource,
+    play,
+    pause,
   };
 };
 
