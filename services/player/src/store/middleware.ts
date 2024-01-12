@@ -38,3 +38,9 @@ export type AppStartListening = TypedStartListening<
 
 export const startListening =
   listenerMiddleware.startListening as AppStartListening;
+
+export const isStepChange = (
+  prev: AppState,
+  current: AppState,
+  name: keyof AppState
+) => !["IDLE", prev[name]?.step].includes(current[name]?.step);

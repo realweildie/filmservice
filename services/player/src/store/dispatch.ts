@@ -16,6 +16,6 @@ export const createDispatch = ({
 
   return (action) => {
     dispatch(action);
-    console.log("[DISPATCH", action);
+    console.log("[DISPATCH]", action);
   };
 };

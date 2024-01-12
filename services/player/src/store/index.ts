@@ -6,6 +6,9 @@ const rootReducer = combineReducers({
   root: root.reducer,
 });
 
+// add extra reducer to listen changes in state for the FIRST
+root.addMiddleware();
+
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
