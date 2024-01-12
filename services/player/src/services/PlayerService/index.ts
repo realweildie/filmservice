@@ -9,14 +9,15 @@ import { isAndroid } from "react-device-detect";
 import { MediatorService } from "../MediatorService";
 import { PlayerError } from "../../utils/errors";
 import { ERROR_CODES } from "../../../types/errors";
+import { IPlayerService } from "../../interfaces";
 
-const PlayerService = () => {
+const PlayerService = (): IPlayerService => {
   let player: VideoJsPlayer;
   let videoNode: HTMLVideoElement;
   let videoType = VIDEO_TYPE.PLAIN;
   let isSetupSource = false;
 
-  let hooks: PlayerHooks = {
+  const hooks: PlayerHooks = {
     beforeSetSource: [],
     beforeLaunch: [],
   };
@@ -45,7 +46,7 @@ const PlayerService = () => {
     });
   };
 
-  const init = (playerId: string, options: VideoJsPlayerOptions = {}) => {
+  const init = async (playerId: string, options: VideoJsPlayerOptions = {}) => {
     new Promise<void>((resolve) => {
       if (player) return resolve();
 
@@ -150,7 +151,9 @@ const PlayerService = () => {
   const play = async () => {
     try {
       await playVideo();
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const pause = () => {
