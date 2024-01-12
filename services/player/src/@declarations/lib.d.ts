@@ -4,4 +4,9 @@ interface Window {
   avifSupport?: boolean;
 
   _player: import("video.js").VideoJsPlayer;
+
+  debug?: {
+    play?: () => void;
+    pause?: () => void;
+  };
 }

@@ -3,26 +3,32 @@ import { AppEvent, EventPayload, FSMConfig } from "../../types";
 import { FSMState, State } from "./types";
 import { isStepChange, startListening } from "../../middleware";
 import { FSM_EVENT, sendEvent } from "../../action";
+import { initPlayer } from "./effects/initPlayer";
+import { setPLayerSource } from "./effects/setSource";
 
 const config: FSMConfig<State, AppEvent> = {
   IDLE: {
     DO_INIT: "INIT_PENDING",
   },
   INIT_PENDING: {
-    INIT_RESOLVE: "INITIALIZED",
-    INIT_REJECTED: "ERROR",
+    INIT_RESOLVE: "RENDER",
   },
-  INITIALIZED: {
-    // i have no config yet
-    // PARSE_CONFIG: "READY",
-    SET_SOURCE: "READY",
+  RENDER: {
+    DO_PLAYER_INIT: "PLAYER_INIT_PENDING",
+  },
+  PLAYER_INIT_PENDING: {
+    PLAYER_INIT_RESOLVE: "SET_SOURCE",
+  },
+  SET_SOURCE: {
+    SET_SOURCE_SUCCESS: "READY",
   },
   READY: {},
-  ERROR: {},
 };
 
 const initialState: FSMState = {
   step: "IDLE",
+  isInited: false,
+  isShowUI: false,
 };
 
 const root = createSlice({
@@ -39,11 +45,10 @@ const root = createSlice({
       switch (type) {
         case "DO_INIT":
           state.step = step;
-          //   console.log(
-          //     `Current step ${state.step} || Next step ${next} || Action Type ${type} `
-          //   );
-
-          console.log("DO INIT CODE");
+          break;
+        case "INIT_RESOLVE":
+          state.step = step;
+          state.isShowUI = true;
           break;
         default:
           return { ...state, step, ...payload };
@@ -56,11 +61,10 @@ const addMiddleware = () =>
   startListening({
     predicate: (action, currentState, prevState) => {
       const res = isStepChange(prevState, currentState, root.name);
-
       // we just check here if the state is changed
-      console.log(
-        `${prevState.root.step} => ${currentState.root.step} ===> ${res}`
-      );
+      //   console.log(
+      //     `${prevState.root.step} => ${currentState.root.step} ===> ${res}`
+      //   );
       return res;
     },
     effect: (action, api) => {
@@ -99,7 +103,18 @@ const addMiddleware = () =>
           //   );
 
           console.log("EFFECT IN THE MOMENT IDLE => INIT_PENDING");
+
+          // we gonna resolve it by default now
+          // there are no error to reject yet
+          dispatch(
+            sendEvent({
+              type: "INIT_RESOLVE",
+            })
+          );
         },
+
+        PLAYER_INIT_PENDING: () => initPlayer(opts),
+        SET_SOURCE: () => setPLayerSource(opts),
       };
 
       const effect = handler[step];

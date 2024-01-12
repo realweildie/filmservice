@@ -4,6 +4,9 @@ export enum VIDEO_TYPE {
   FAKE_VIDEO = "FAKE_VIDEO",
 }
 
+export const DEFAULT_PLAYER_ID = "videoPlayerBase";
+export const PLAYER_ID = `${DEFAULT_PLAYER_ID}_html5_api`;
+
 export type Events = {
   play: () => void;
   pause: () => void;

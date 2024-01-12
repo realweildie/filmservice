@@ -59,6 +59,13 @@ const PlayerService = (): IPlayerService => {
         pause: () => mediator.emit("pause"),
       };
 
+      // if DEBUG
+
+      window.debug = {
+        play: () => player.play(),
+        pause: () => player.pause(),
+      };
+
       Object.keys(events).forEach((event) => {
         player.on(event, () => {
           if (!isDispatch()) {
